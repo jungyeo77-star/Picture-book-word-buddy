@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Picture Book Word Buddy</title>
+
+  <style>
+    /* =========================
+       BASIC PAGE STYLE
+       ========================= */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Arial", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: linear-gradient(135deg, #fff7e8, #eaf7f3);
+      color: #2f3a3d;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 920px;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+      padding: 32px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin: 10px 0;
+      color: #355c63;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin: 12px 0;
+      color: #4d6f75;
+    }
+
+    h3 {
+      font-size: 24px;
+      margin: 12px 0;
+      color: #4d6f75;
+    }
+
+    p {
+      font-size: 21px;
+      line-height: 1.6;
+    }
+
+    .small-text {
+      font-size: 17px;
+      color: #667;
+    }
+
+    .book-info {
+      background: #f6efe2;
+      border-radius: 20px;
+      padding: 18px;
+      margin: 22px auto;
+      max-width: 680px;
+    }
+
+    .choice-box {
+      background: #f7fbfb;
+      border: 3px solid #cbe7e2;
+      border-radius: 24px;
+      padding: 22px;
+      margin: 20px auto;
+      max-width: 760px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    button {
+      border: none;
+      border-radius: 18px;
+      padding: 16px 24px;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #b9ded7;
+      color: #263b3e;
+      box-shadow: 0 5px 0 #8fbdb5;
+      transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+    }
+
+    button:hover {
+      background: #a9d5cd;
+    }
+
+    button:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #8fbdb5;
+    }
+
+    .secondary-button {
+      background: #f8d7a8;
+      box-shadow: 0 5px 0 #e4b974;
+    }
+
+    .secondary-button:hover {
+      background: #f3ca91;
+    }
+
+    .soft-button {
+      background: #d8d3f0;
+      box-shadow: 0 5px 0 #b9b1dc;
+    }
+
+    .soft-button:hover {
+      background: #cbc4ea;
+    }
+
+    .quiet-button {
+      background: #e4e8ec;
+      box-shadow: 0 5px 0 #c3c9cf;
+    }
+
+    .quiet-button:hover {
+      background: #d9dee4;
+    }
+
+    .card {
+      background: #f7fbfb;
+      border: 4px solid #cbe7e2;
+      border-radius: 28px;
+      padding: 34px 24px;
+      margin: 24px auto;
+      max-width: 720px;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .prompt-label {
+      font-size: 21px;
+      font-weight: 700;
+      color: #5a7075;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      font-size: 54px;
+      font-weight: 800;
+      color: #274b52;
+      margin: 16px 0;
+      word-break: keep-all;
+    }
+
+    .meaning-question {
+      font-size: 42px;
+      font-weight: 800;
+      color: #5d4d3b;
+      margin: 16px 0;
+      word-break: keep-all;
+    }
+
+    .answer-box {
+      background: #fff7e8;
+      border-radius: 22px;
+      padding: 22px;
+      margin: 18px auto;
+      max-width: 660px;
+      text-align: center;
+    }
+
+    .answer-word {
+      font-size: 42px;
+      font-weight: 800;
+      color: #274b52;
+      margin: 8px 0;
+    }
+
+    .answer-meaning {
+      font-size: 30px;
+      font-weight: 700;
+      color: #5d4d3b;
+      margin: 8px 0;
+    }
+
+    .sentence {
+      font-size: 27px;
+      line-height: 1.5;
+      color: #344;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 16px auto 6px;
+      max-width: 640px;
+    }
+
+    .progress {
+      margin-top: 12px;
+      font-size: 18px;
+      color: #6d7b80;
+    }
+
+    input {
+      width: 100%;
+      max-width: 520px;
+      padding: 18px;
+      font-size: 26px;
+      border: 3px solid #cbe7e2;
+      border-radius: 18px;
+      text-align: center;
+      margin: 18px auto;
+      display: block;
+    }
+
+    .feedback {
+      min-height: 42px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #4e756f;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .word-list {
+      text-align: left;
+      max-width: 680px;
+      margin: 20px auto;
+      background: #fbfaf5;
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .word-list li {
+      font-size: 20px;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+
+    /* =========================
+       TOP ARROW NAVIGATION
+       ========================= */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 720px;
+      margin: 10px auto 8px;
+    }
+
+    .arrow-button {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 34px;
+      line-height: 1;
+      background: #e4e8ec;
+      box-shadow: 0 5px 0 #c3c9cf;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .arrow-button:hover {
+      background: #d9dee4;
+    }
+
+    .arrow-button:disabled {
+      opacity: 0.28;
+      cursor: default;
+      transform: none;
+      box-shadow: 0 5px 0 #c3c9cf;
+    }
+
+    .top-nav-label {
+      font-size: 18px;
+      color: #6d7b80;
+      font-weight: 700;
+    }
+
+
+    /* =========================
+       CELEBRATION POPUP
+       ========================= */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(31, 41, 55, 0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 24px;
+    }
+
+    .popup-overlay.hidden {
+      display: none;
+    }
+
+    .popup-card {
+      position: relative;
+      width: min(92vw, 520px);
+      min-height: 320px;
+      background: linear-gradient(180deg, #fff8fb 0%, #fffef7 100%);
+      border-radius: 28px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+      border: 4px solid #ffd7ea;
+      overflow: hidden;
+      padding: 26px 22px 30px;
+      text-align: center;
+    }
+
+    .popup-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: #d94b88;
+      margin-top: 18px;
+      margin-bottom: 12px;
+    }
+
+    .popup-message {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: #5a5968;
+      margin: 14px auto 24px;
+      max-width: 420px;
+      word-break: keep-all;
+    }
+
+    .popup-subtext {
+      font-size: 18px;
+      color: #7a7d8e;
+      margin-bottom: 16px;
+    }
+
+    .popup-close {
+      background: #ffd1e6;
+      box-shadow: 0 5px 0 #f0aacb;
+      color: #5c3c4c;
+    }
+
+    .popup-close:hover {
+      background: #ffc3de;
+    }
+
+    .heart-burst {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0;
+      animation: heartBurst 1.6s ease-out forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes heartBurst {
+      0% {
+        transform: translate(0, 0) scale(0.6);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(1.25) rotate(var(--rot));
+        opacity: 0;
+      }
+    }
+
+
+    /* =========================
+       SEQUENTIAL HEART FEEDBACK
+       Hearts appear one by one and then stay still.
+       ========================= */
+    .heart-seq {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(6px) scale(0.75);
+      animation: heartSeqAppear 0.45s ease-out forwards;
+      margin-right: 2px;
+    }
+
+    .heart-seq:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .heart-seq:nth-child(2) {
+      animation-delay: 0.25s;
+    }
+
+    .heart-seq:nth-child(3) {
+      animation-delay: 0.5s;
+      margin-right: 8px;
+    }
+
+    @keyframes heartSeqAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(6px) scale(0.75);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.15);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+
+    /* =========================
+       ANIMATED TEACHER ICON FEEDBACK
+       A small smiling teacher-with-glasses icon appears gently and then stays still.
+       ========================= */
+    .teacher-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      margin-right: 8px;
+      vertical-align: middle;
+      animation: teacherIconAppear 0.55s ease-out forwards;
+      transform-origin: center;
+    }
+
+    .teacher-icon svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    @keyframes teacherIconAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.65);
+      }
+      65% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.08);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+
+
+    /* =========================
+       ANIMATED SMILE FEEDBACK
+       The smile emoji appears gently and then stays still.
+       ========================= */
+    .smile-icon {
+      display: inline-block;
+      margin-right: 8px;
+      font-size: 28px;
+      vertical-align: middle;
+      opacity: 0;
+      transform: translateY(8px) scale(0.7);
+      animation: smileAppear 0.6s ease-out forwards;
+    }
+
+    @keyframes smileAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.7);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-3px) scale(1.12);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .question {
+        font-size: 40px;
+      }
+
+      .meaning-question {
+        font-size: 34px;
+      }
+
+      .answer-word {
+        font-size: 34px;
+      }
+
+      .answer-meaning {
+        font-size: 26px;
+      }
+
+      .sentence {
+        font-size: 23px;
+      }
+
+      button {
+        width: 100%;
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <!-- =========================
+         HOME SCREEN
+         ========================= -->
+    <section id="homeScreen">
+      <h1>Picture Book Word Buddy</h1>
+
+      <div class="book-info">
+        <h2>This Is Not My Hat</h2>
+        <p class="small-text">by Jon Klassen</p>
+        <p>Choose a word set and a game mode.</p>
+      </div>
+
+      <div class="choice-box">
+        <h3>1. Choose a word set</h3>
+        <div class="button-row">
+          <button id="set1Button" onclick="chooseSet('set1')">Set 1: Words 1–10</button>
+          <button id="set2Button" class="secondary-button" onclick="chooseSet('set2')">Set 2: Words 11–19</button>
+        </div>
+      </div>
+
+      <div class="choice-box">
+        <h3>2. Choose a game mode</h3>
+        <div class="button-row">
+          <button id="wordToMeaningButton" class="soft-button" onclick="chooseMode('wordToMeaning')">
+            Word → Meaning
+          </button>
+          <button id="meaningToWordButton" class="soft-button" onclick="chooseMode('meaningToWord')">
+            Meaning → Word
+          </button>
+        </div>
+        <p class="small-text" id="modeHelpText">
+          Word → Meaning: 영어 단어를 보고 한국어 뜻을 써요.<br>
+          Meaning → Word: 한국어 뜻을 보고 영어 단어를 써요.
+        </p>
+      </div>
+
+      <div class="button-row">
+        <button onclick="startGame()">Start</button>
+      </div>
+
+      <p id="homeMessage" class="feedback"></p>
+    </section>
+
+    <!-- =========================
+         PRACTICE SCREEN
+         ========================= -->
+    <section id="practiceScreen" class="hidden">
+      <h2 id="setTitle"></h2>
+      <p class="small-text" id="modeTitle"></p>
+      <div class="progress" id="progressText"></div>
+
+      <div class="top-nav">
+        <button id="prevArrow" class="arrow-button" onclick="previousWord()" aria-label="Previous word">‹</button>
+        <span class="top-nav-label">Move between words</span>
+        <button id="nextArrow" class="arrow-button" onclick="goNextFromArrow()" aria-label="Next word">›</button>
+      </div>
+
+      <div class="card">
+        <div id="promptLabel" class="prompt-label"></div>
+        <div id="questionText"></div>
+
+        <input id="answerInput" type="text" autocomplete="off" />
+        <div id="feedback" class="feedback"></div>
+
+        <div id="answerArea" class="hidden"></div>
+      </div>
+
+      <div class="button-row" id="buttonArea"></div>
+    </section>
+
+    <!-- =========================
+         FINISH SCREEN
+         ========================= -->
+    <section id="finishScreen" class="hidden">
+      <h1>Great job!</h1>
+      <p>You practiced today’s story words.</p>
+
+      <div class="word-list">
+        <h3>Words you practiced today</h3>
+        <ol id="practicedList"></ol>
+      </div>
+
+      <div class="button-row">
+        <button onclick="reviewAgain()">Review Again</button>
+        <button class="secondary-button" onclick="backToHome()">Back to Home</button>
+      </div>
+    </section>
+
+
+    <!-- =========================
+         CELEBRATION POPUP
+         ========================= -->
+    <div id="celebrationPopup" class="popup-overlay hidden" aria-hidden="true">
+      <div class="popup-card">
+        <div id="heartBurst" class="heart-burst"></div>
+        <div class="popup-title">축하해요!</div>
+        <div id="popupMessage" class="popup-message">잘했어요!</div>
+        <div class="popup-subtext">하트가 반짝반짝 쏟아져요!</div>
+        <button class="popup-close" onclick="closeCelebrationPopup()">닫기</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /* ============================================================
+       WORD DATA START
+       You can change the book title and word sets here later.
+       Each word has:
+       - word: English word or expression
+       - meaning: Korean meaning
+       - sentence: sentence from or related to the book
+       ============================================================ */
+
+    const bookData = {
+      title: "This Is Not My Hat",
+      author: "Jon Klassen",
+      sets: {
+        set1: {
+          title: "Set 1: Words 1–10",
+          words: [
+            {
+              word: "mine",
+              meaning: "나의 것",
+              sentence: "This hat is not mine."
+            },
+            {
+              word: "stole",
+              meaning: "훔쳤다",
+              sentence: "I just stole it."
+            },
+            {
+              word: "steal",
+              meaning: "훔치다",
+              sentence: "I know it's wrong to steal a hat."
+            },
+            {
+              word: "be asleep",
+              meaning: "잠자고 있다",
+              sentence: "He was asleep when I did it."
+            },
+            {
+              word: "wake up",
+              meaning: "잠에서 깨다",
+              sentence: "He probably won't wake up for a long time."
+            },
+            {
+              word: "even if",
+              meaning: "~일지라도",
+              sentence: "Even if he does wake up,"
+            },
+            {
+              word: "notice",
+              meaning: "알아차리다",
+              sentence: "He probably won't notice that it's gone."
+            },
+            {
+              word: "guess",
+              meaning: "추측하다",
+              sentence: "Even if he does guess it was me,"
+            },
+            {
+              word: "grow",
+              meaning: "자라다",
+              sentence: "I am going where the plants grow big and tall and close together."
+            },
+            {
+              word: "hard",
+              meaning: "어려운",
+              sentence: "It is very hard to see in there."
+            }
+          ]
+        },
+
+        set2: {
+          title: "Set 2: Words 11–19",
+          words: [
+            {
+              word: "nobody",
+              meaning: "아무도",
+              sentence: "Nobody will ever find me."
+            },
+            {
+              word: "someone",
+              meaning: "어떤 사람",
+              sentence: "There is someone who has seen me."
+            },
+            {
+              word: "worry about",
+              meaning: "~에 대해 걱정하다",
+              sentence: "I am not worried about that."
+            },
+            {
+              word: "wrong",
+              meaning: "잘못된",
+              sentence: "I know it's wrong to steal a hat."
+            },
+            {
+              word: "belong to",
+              meaning: "~에 속하다",
+              sentence: "I know it does not belong to me."
+            },
+            {
+              word: "keep",
+              meaning: "계속 가지고 있다",
+              sentence: "I am going to keep it."
+            },
+            {
+              word: "fit",
+              meaning: "딱 맞다",
+              sentence: "It fits me just right."
+            },
+            {
+              word: "made it",
+              meaning: "도착했다, 성공했다",
+              sentence: "And look! I made it!"
+            },
+            {
+              word: "make it",
+              meaning: "도착하다, 성공하다",
+              sentence: "I knew I was going to make it."
+            }
+          ]
+        }
+      }
+    };
+
+    /* WORD DATA END */
+
+    /* ============================================================
+       GAME VARIABLES
+       ============================================================ */
+
+    let selectedSetKey = "";
+    let selectedMode = "";
+
+    let currentWords = [];
+    let currentIndex = 0;
+    let checked = false;
+
+    const homeScreen = document.getElementById("homeScreen");
+    const practiceScreen = document.getElementById("practiceScreen");
+    const finishScreen = document.getElementById("finishScreen");
+
+    const setTitle = document.getElementById("setTitle");
+    const modeTitle = document.getElementById("modeTitle");
+    const progressText = document.getElementById("progressText");
+    const promptLabel = document.getElementById("promptLabel");
+    const questionText = document.getElementById("questionText");
+    const answerInput = document.getElementById("answerInput");
+    const feedback = document.getElementById("feedback");
+    const answerArea = document.getElementById("answerArea");
+    const buttonArea = document.getElementById("buttonArea");
+    const practicedList = document.getElementById("practicedList");
+    const homeMessage = document.getElementById("homeMessage");
+    const celebrationPopup = document.getElementById("celebrationPopup");
+    const popupMessage = document.getElementById("popupMessage");
+    const heartBurst = document.getElementById("heartBurst");
+
+    /* ============================================================
+       CHOOSE SET AND MODE
+       ============================================================ */
+
+    function chooseSet(setKey) {
+      selectedSetKey = setKey;
+      homeMessage.textContent = "";
+
+      document.getElementById("set1Button").style.outline = "none";
+      document.getElementById("set2Button").style.outline = "none";
+
+      if (setKey === "set1") {
+        document.getElementById("set1Button").style.outline = "5px solid #6fa69d";
+      } else {
+        document.getElementById("set2Button").style.outline = "5px solid #e0a955";
+      }
+    }
+
+    function chooseMode(mode) {
+      selectedMode = mode;
+      homeMessage.textContent = "";
+
+      document.getElementById("wordToMeaningButton").style.outline = "none";
+      document.getElementById("meaningToWordButton").style.outline = "none";
+
+      if (mode === "wordToMeaning") {
+        document.getElementById("wordToMeaningButton").style.outline = "5px solid #9a90cf";
+      } else {
+        document.getElementById("meaningToWordButton").style.outline = "5px solid #9a90cf";
+      }
+    }
+
+    /* ============================================================
+       START GAME
+       ============================================================ */
+
+    function startGame() {
+      if (!selectedSetKey || !selectedMode) {
+        homeMessage.textContent = "Choose one word set and one game mode.";
+        return;
+      }
+
+      currentWords = bookData.sets[selectedSetKey].words;
+      currentIndex = 0;
+      checked = false;
+
+      homeScreen.classList.add("hidden");
+      finishScreen.classList.add("hidden");
+      practiceScreen.classList.remove("hidden");
+
+      setTitle.textContent = bookData.sets[selectedSetKey].title;
+
+      if (selectedMode === "wordToMeaning") {
+        modeTitle.textContent = "Word → Meaning: 영어 단어를 보고 한국어 뜻을 써요.";
+      } else {
+        modeTitle.textContent = "Meaning → Word: 한국어 뜻을 보고 영어 단어를 써요.";
+      }
+
+      showQuestion();
+    }
+
+    /* ============================================================
+       SHOW QUESTION
+       Important: Before checking, the word and meaning are NOT shown together.
+       ============================================================ */
+
+    function showQuestion() {
+      const item = currentWords[currentIndex];
+      checked = false;
+
+      progressText.textContent =
+        "Word " + (currentIndex + 1) + " of " + currentWords.length;
+
+      updateArrowButtons();
+
+      feedback.textContent = "";
+      answerInput.value = "";
+      answerArea.classList.add("hidden");
+      answerArea.innerHTML = "";
+      buttonArea.innerHTML = "";
+
+      answerInput.classList.remove("hidden");
+
+      if (selectedMode === "wordToMeaning") {
+        promptLabel.textContent = "What does this word mean?";
+        questionText.className = "question";
+        questionText.textContent = item.word;
+        answerInput.placeholder = "한국어 뜻을 써 보세요.";
+
+        addButton("Listen", function() {
+          speakEnglish(item.word);
+        }, "quiet-button");
+      }
+
+      if (selectedMode === "meaningToWord") {
+        promptLabel.textContent = "What is the English word?";
+        questionText.className = "meaning-question";
+        questionText.textContent = item.meaning;
+        answerInput.placeholder = "영어 단어를 써 보세요.";
+      }
+
+      addButton("Check", checkAnswer);
+
+      answerInput.focus();
+    }
+
+    /* ============================================================
+       CHECK ANSWER
+       Soft feedback only.
+       After checking, the word, meaning, sentence, and Listen button are shown.
+       ============================================================ */
+
+    function checkAnswer() {
+      const item = currentWords[currentIndex];
+      const userAnswer = normalizeAnswer(answerInput.value);
+
+      let expectedAnswer = "";
+
+      if (selectedMode === "wordToMeaning") {
+        expectedAnswer = normalizeAnswer(item.meaning);
+      } else {
+        expectedAnswer = normalizeAnswer(item.word);
+      }
+
+      let isCorrect = false;
+
+      if (selectedMode === "wordToMeaning") {
+        if (userAnswer === expectedAnswer) {
+          setHeartFeedback("잘했어요! 뜻을 잘 기억했어요.");
+          isCorrect = true;
+        } else {
+          setTeacherFeedback("좋은 시도예요! 같이 확인해 봐요.");
+        }
+      }
+
+      if (selectedMode === "meaningToWord") {
+        if (userAnswer === expectedAnswer) {
+          setHeartFeedback("잘했어요! 단어를 잘 기억해서 썼어요.");
+          isCorrect = true;
+        } else {
+          setTeacherFeedback("좋은 시도예요! 같이 확인해 봐요.");
+        }
+      }
+
+      checked = true;
+      showAnswer(item);
+    }
+
+    /* ============================================================
+       SHOW ANSWER
+       Now the word and meaning can appear together because the student has checked.
+       ============================================================ */
+
+    function showAnswer(item) {
+      answerArea.classList.remove("hidden");
+      answerArea.innerHTML =
+        '<div class="answer-box">' +
+          '<div class="answer-word">' + escapeHTML(item.word) + '</div>' +
+          '<div class="answer-meaning">' + escapeHTML(item.meaning) + '</div>' +
+          '<div class="sentence">' + escapeHTML(item.sentence) + '</div>' +
+        '</div>';
+
+      buttonArea.innerHTML = "";
+
+      addButton("Listen to Word", function() {
+        speakEnglish(item.word);
+      }, "quiet-button");
+
+      addButton("Listen to Sentence", function() {
+        speakEnglish(item.sentence);
+      }, "quiet-button");
+    }
+
+    /* ============================================================
+       SPEECH SYNTHESIS
+       Uses the browser's built-in speechSynthesis.
+       No mp3 file is needed.
+       ============================================================ */
+
+    function speakEnglish(text) {
+      if (!("speechSynthesis" in window)) {
+        feedback.textContent = "Listen is not available in this browser.";
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /* ============================================================
+       NEXT WORD OR FINISH
+       ============================================================ */
+
+    function nextWord() {
+      if (currentIndex < currentWords.length - 1) {
+        currentIndex++;
+        showQuestion();
+      } else {
+        showFinishScreen();
+      }
+    }
+
+    function previousWord() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion();
+      }
+    }
+
+    function goNextFromArrow() {
+      nextWord();
+    }
+
+    function updateArrowButtons() {
+      const prevArrow = document.getElementById("prevArrow");
+      const nextArrow = document.getElementById("nextArrow");
+
+      if (!prevArrow || !nextArrow) {
+        return;
+      }
+
+      prevArrow.disabled = currentIndex === 0;
+
+      if (currentIndex === currentWords.length - 1) {
+        nextArrow.title = "Finish";
+      } else {
+        nextArrow.title = "Next word";
+      }
+    }
+
+    function previousWord() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion();
+      }
+    }
+
+    function addNavigationButtons() {
+      addButton("Next Word", nextWord, "secondary-button");
+    }
+
+    function showFinishScreen() {
+      practiceScreen.classList.add("hidden");
+      finishScreen.classList.remove("hidden");
+
+      practicedList.innerHTML = "";
+
+      currentWords.forEach(function(item) {
+        const li = document.createElement("li");
+        li.innerHTML =
+          "<strong>" + escapeHTML(item.word) + "</strong> — " + escapeHTML(item.meaning);
+        practicedList.appendChild(li);
+      });
+    }
+
+    /* ============================================================
+       REVIEW AGAIN OR GO HOME
+       ============================================================ */
+
+    function reviewAgain() {
+      currentIndex = 0;
+      checked = false;
+      finishScreen.classList.add("hidden");
+      practiceScreen.classList.remove("hidden");
+      showQuestion();
+    }
+
+    function backToHome() {
+      finishScreen.classList.add("hidden");
+      practiceScreen.classList.add("hidden");
+      homeScreen.classList.remove("hidden");
+    }
+
+    /* ============================================================
+       HELPER FUNCTIONS
+       ============================================================ */
+
+    function addButton(text, action, className) {
+      const button = document.createElement("button");
+      button.textContent = text;
+      button.onclick = action;
+
+      if (className) {
+        button.classList.add(className);
+      }
+
+      buttonArea.appendChild(button);
+    }
+
+
+
+    function setTeacherFeedback(message) {
+      feedback.innerHTML =
+        '<span class="smile-icon" aria-hidden="true">😊</span>' +
+        escapeHTML(message);
+    }
+
+    function setHeartFeedback(message) {
+      feedback.innerHTML =
+        '<span class="heart-seq">💗</span>' +
+        '<span class="heart-seq">💖</span>' +
+        '<span class="heart-seq">💕</span>' +
+        escapeHTML(message);
+    }
+
+    function normalizeAnswer(text) {
+      return text
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .replace(/[.?!]/g, "");
+    }
+
+    function escapeHTML(text) {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+
+
+    /* ============================================================
+       CELEBRATION POPUP DISABLED
+       The game now uses small static hearts in the feedback line,
+       so the screen is not covered by a popup.
+       ============================================================ */
+
+    function showCelebrationPopup(message) {
+      return;
+    }
+
+    function closeCelebrationPopup() {
+      return;
+    }
+
+    function createHeartBurst() {
+      return;
+    }
+
+    /* ============================================================
+       KEYBOARD SUPPORT
+       Press Enter to check the answer while typing.
+       ============================================================ */
+
+    answerInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        checkAnswer();
+      }
+    });
+
+  </script>
+</body>
+</html>
