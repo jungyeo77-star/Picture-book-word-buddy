@@ -1016,6 +1016,8 @@
       if (currentIndex > 0) {
         currentIndex--;
         showQuestion();
+      } else {
+        backToHome();
       }
     }
 
@@ -1031,19 +1033,20 @@
         return;
       }
 
-      prevArrow.disabled = currentIndex === 0;
+      prevArrow.disabled = false;
+
+      if (currentIndex === 0) {
+        prevArrow.title = "Back to start";
+        prevArrow.setAttribute("aria-label", "Back to start");
+      } else {
+        prevArrow.title = "Previous word";
+        prevArrow.setAttribute("aria-label", "Previous word");
+      }
 
       if (currentIndex === currentWords.length - 1) {
         nextArrow.title = "Finish";
       } else {
         nextArrow.title = "Next word";
-      }
-    }
-
-    function previousWord() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        showQuestion();
       }
     }
 
